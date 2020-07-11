@@ -1,8 +1,5 @@
 package com.example.quizdroid_final;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -16,6 +13,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,9 +48,6 @@ public class QuizActivity extends AppCompatActivity {
 
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
-    private TimerDialog timerDialog;
-
-
     int score = 0;
 
 
@@ -60,17 +58,19 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
         setupUI();
         fetchDB();
         textColorDefaultCd = textViewCountdown.getTextColors();
-        Log.i("BUGBUG","onCreate() in QuizActivity");
+        Log.i("BUGBUG", "onCreate() in QuizActivity");
 
-
-
-
-        timerDialog = new TimerDialog(this);
     }
+
     private void setupUI() {
         textViewQuestions = findViewById(R.id.txtQuestionContainer);
 
@@ -87,7 +87,8 @@ public class QuizActivity extends AppCompatActivity {
 
 
     }
-    private void fetchDB(){
+
+    private void fetchDB() {
 
         QuizDBHelper dbHelper = new QuizDBHelper(this);
         questionList = dbHelper.getAllQuestions();
@@ -105,59 +106,59 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                switch (checkedId){
+                switch (checkedId) {
 
                     case R.id.radio_button1:
 
-                        rb1.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                        rb1.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                         rb2.setTextColor(Color.BLACK);
                         rb3.setTextColor(Color.BLACK);
                         rb4.setTextColor(Color.BLACK);
 
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
 
                         break;
 
                     case R.id.radio_button2:
 
-                        rb2.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                        rb2.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
 
                         rb1.setTextColor(Color.BLACK);
                         rb3.setTextColor(Color.BLACK);
                         rb4.setTextColor(Color.BLACK);
 
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
 
                         break;
 
                     case R.id.radio_button3:
-                        rb3.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                        rb3.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                         rb2.setTextColor(Color.BLACK);
                         rb1.setTextColor(Color.BLACK);
                         rb4.setTextColor(Color.BLACK);
 
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
 
                         break;
                     case R.id.radio_button4:
-                        rb4.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+                        rb4.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
                         rb2.setTextColor(Color.BLACK);
                         rb3.setTextColor(Color.BLACK);
                         rb1.setTextColor(Color.BLACK);
 
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
 
                         break;
                 }
@@ -168,12 +169,10 @@ public class QuizActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (!answerd){
-                    if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()){
-
+                if (!answerd) {
+                    if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()) {
                         quizOperations();
-                    }else {
-
+                    } else {
                         Toast.makeText(QuizActivity.this, "Bitte Wähle eine Antwort aus", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -184,164 +183,139 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void quizOperations() { //Quiz Logik prüfe die Antworten
-
         answerd = true;
-        RadioButton rbselected= findViewById(rbGroup.getCheckedRadioButtonId());
-        int answerNr = rbGroup.indexOfChild(rbselected) + 1;
+        RadioButton rbselected = findViewById(rbGroup.getCheckedRadioButtonId());
+        if (rbselected != null) {
+            int answerNr = rbGroup.indexOfChild(rbselected) + 1;
+            checkSolution(answerNr, rbselected);
+            return;
+        }
+        checkSolution(99, null);
 
-        checkSolution(answerNr,rbselected);
     }
+
     private void checkSolution(int answerNr, RadioButton rbselected) {
-
-        switch (currentQuestions.getAnswerNr()){
-
+        switch (currentQuestions.getAnswerNr()) {
             case 1:
-                if (currentQuestions.getAnswerNr() == answerNr){
-
-                    rb1.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+                if (currentQuestions.getAnswerNr() == answerNr) {
+                    rb1.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     rb1.setTextColor(Color.WHITE);
-
                     score += 10;
                     textViewScore.setText("Score: " + score);
-
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },1000);
-
-
-                }else {
+                    }, 1000);
+                } else {
                     changetoIncorrectColor(rbselected);
-                    rb1.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
-
-
+                    rb1.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },500);
-
+                    }, 500);
                 }
                 break;
             case 2:
-                if (currentQuestions.getAnswerNr() == answerNr){
-
-                    rb2.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+                if (currentQuestions.getAnswerNr() == answerNr) {
+                    rb2.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     rb2.setTextColor(Color.WHITE);
                     score += 10;
                     textViewScore.setText("Score: " + score);
-
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },1000);
-                }else {
+                    }, 1000);
+                } else {
                     changetoIncorrectColor(rbselected);
-                    rb2.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
-
-
-
+                    rb2.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },500);
+                    }, 500);
                 }
 
                 break;
             case 3:
-                if (currentQuestions.getAnswerNr() == answerNr){
-
-                    rb3.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+                if (currentQuestions.getAnswerNr() == answerNr) {
+                    rb3.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     rb3.setTextColor(Color.WHITE);
                     score += 10;
                     textViewScore.setText("Score: " + score);
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },1000);
-                }else {
+                    }, 1000);
+                } else {
                     changetoIncorrectColor(rbselected);
-                    rb3.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
-
-
+                    rb3.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },500);
+                    }, 500);
                 }
-
                 break;
 
             case 4:
-                if (currentQuestions.getAnswerNr() == answerNr){
-
-                    rb4.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+                if (currentQuestions.getAnswerNr() == answerNr) {
+                    rb4.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     rb4.setTextColor(Color.WHITE);
                     score += 10;
                     textViewScore.setText("Score: " + score);
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },1000);
-                }else {
+                    }, 1000);
+                } else {
                     changetoIncorrectColor(rbselected);
-                    rb4.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
-
-
+                    rb4.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_richtig_btn));
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             showQuestions();
                         }
-                    },500);
+                    }, 500);
                 }
-
                 break;
         }
-        if (questionCounter == questionTotalCount){
+        if (questionCounter == questionTotalCount) {
             buttonConfirmNext.setText("Bestätige und Beende");
         }
     }
+
     void changetoIncorrectColor(RadioButton rbselected) {
 
-        rbselected.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_falsche_btn_rot));
-        rbselected.setTextColor(Color.BLACK);
-
+        if (rbselected != null)
+            rbselected.setTextColor(Color.BLACK);
 
     }
+
     private void showQuestions() { //Zeige die nächsten Fragen
 
         rbGroup.clearCheck();
-
         rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
         rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
         rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
         rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-
         rb1.setTextColor(Color.BLACK);
         rb2.setTextColor(Color.BLACK);
         rb3.setTextColor(Color.BLACK);
         rb4.setTextColor(Color.BLACK);
 
         if (questionCounter < questionTotalCount) {
-
             currentQuestions = questionList.get(questionCounter);
             textViewQuestions.setText(currentQuestions.getQuestion());
             rb1.setText(currentQuestions.getOption1());
@@ -369,25 +343,27 @@ public class QuizActivity extends AppCompatActivity {
             rb4.setClickable(false);
             buttonConfirmNext.setClickable(false);
 
-            handler.postDelayed(new Runnable() {
+            finishQuiz();
+/*            handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     finishQuiz();
-
                 }
-            }, 2000);
+            }, 2000);*/
         }
 
     }
 
     private void startCountDown() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+        countDownTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
             }
+
             @Override
             public void onFinish() {
                 timeLeftInMillis = 0;
@@ -400,6 +376,7 @@ public class QuizActivity extends AppCompatActivity {
     private void updateCountDownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        Log.e("TAG", "Minutes::" + minutes + "Seconds::" + seconds);
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         textViewCountdown.setText(timeFormatted);
         if (timeLeftInMillis < 10000) {
@@ -407,7 +384,7 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             textViewCountdown.setTextColor(textColorDefaultCd);
         }
-        if (timeLeftInMillis == 0 ){
+        if (timeLeftInMillis == 0) {
 
 
             Toast.makeText(this, "Times Up!", Toast.LENGTH_SHORT).show();
@@ -417,11 +394,9 @@ public class QuizActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    timerDialog.timerDialog();
 
                 }
-            },2000);
-
+            }, 2000);
 
 
         }
@@ -431,13 +406,13 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i("BUGBUG","onRestart() in QuizActivity");
+        Log.i("BUGBUG", "onRestart() in QuizActivity");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("BUGBUG","onStop() in QuizActivity");
+        Log.i("BUGBUG", "onStop() in QuizActivity");
         finish();
 
     }
@@ -446,43 +421,43 @@ public class QuizActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        Log.i("BUGBUG","onPause() in QuizActivity");
+        Log.i("BUGBUG", "onPause() in QuizActivity");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("BUGBUG","onResume() in QuizActivity");
+        Log.i("BUGBUG", "onResume() in QuizActivity");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i("BUGBUG","onStart() in QuizActivity");
+        Log.i("BUGBUG", "onStart() in QuizActivity");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        if (countDownTimer!=null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-        Log.i("BUGBUG","onDestroy() in QuizActivity");
+        Log.i("BUGBUG", "onDestroy() in QuizActivity");
 
 
     }
-
 
 
     private void finishQuiz() {
+        Toast.makeText(this, "Quiz finished", Toast.LENGTH_SHORT);
         Intent resultData = new Intent(QuizActivity.this,ResultActivity.class);
-
         resultData.putExtra("UserScore",score);
         resultData.putExtra("TotalQuestion",questionTotalCount);
-
         startActivity(resultData);
+        finish(); //closing quiz activity
     }
+
     @Override
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
