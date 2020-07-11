@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
 
+    private static final long COUNTDOWN_IN_MILLIS = 30000;
     private RadioGroup rbGroup;
     private RadioButton rb1;
     private RadioButton rb2;
@@ -32,7 +35,7 @@ public class QuizActivity extends AppCompatActivity {
     private TextView textViewScore;
     private TextView textViewQuestionCount;
     private TextView textViewCountdown;
-    private TextView textViewCorrect, textViewWrong;
+
 
     private ArrayList<Questions> questionList;
     private int questionCounter;
@@ -41,18 +44,18 @@ public class QuizActivity extends AppCompatActivity {
     private boolean answerd;
 
     private Handler handler = new Handler();
-    private ColorStateList buttonLabelColor;
 
-    private int correctAns = 0, wrongAns = 0;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMillis;
+    private TimerDialog timerDialog;
+
 
     int score = 0;
 
-    private int totalSizeofQuiz = 0;
 
-    private static final long COUNTDOWN_IN_MILLIS = 30000;
-    private CountDownTimer countDownTimer;
-    private long timeleftinMillis;
+    private int totalSizeofQuiz = 0;
     private long backPressedTime;
+    private ColorStateList textColorDefaultCd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +63,17 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_layout);
         setupUI();
         fetchDB();
+        textColorDefaultCd = textViewCountdown.getTextColors();
+        Log.i("BUGBUG","onCreate() in QuizActivity");
+
+
+
+
+        timerDialog = new TimerDialog(this);
     }
     private void setupUI() {
         textViewQuestions = findViewById(R.id.txtQuestionContainer);
 
-        //textViewCorrect = findViewById(R.id.txtCorrect);
-        //textViewWrong = findViewById(R.id.txtWrong);
         textViewCountdown = findViewById(R.id.txtViewTimer);
         textViewQuestionCount = findViewById(R.id.txtTotalQuestion);
         textViewScore = findViewById(R.id.txtScore);
@@ -83,7 +91,6 @@ public class QuizActivity extends AppCompatActivity {
 
         QuizDBHelper dbHelper = new QuizDBHelper(this);
         questionList = dbHelper.getAllQuestions();
-
         startQuiz();
     }
 
@@ -107,10 +114,10 @@ public class QuizActivity extends AppCompatActivity {
                         rb3.setTextColor(Color.BLACK);
                         rb4.setTextColor(Color.BLACK);
 
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_option_selected));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
 
                         break;
 
@@ -122,10 +129,10 @@ public class QuizActivity extends AppCompatActivity {
                         rb3.setTextColor(Color.BLACK);
                         rb4.setTextColor(Color.BLACK);
 
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_option_selected));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
 
                         break;
 
@@ -135,10 +142,10 @@ public class QuizActivity extends AppCompatActivity {
                         rb1.setTextColor(Color.BLACK);
                         rb4.setTextColor(Color.BLACK);
 
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_option_selected));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
 
                         break;
                     case R.id.radio_button4:
@@ -147,10 +154,10 @@ public class QuizActivity extends AppCompatActivity {
                         rb3.setTextColor(Color.BLACK);
                         rb1.setTextColor(Color.BLACK);
 
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.when_option_selected));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.buttons_background));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.spielseite_bestaetigen_btn_1));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.rechteck_2));
 
                         break;
                 }
@@ -176,7 +183,7 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    private void quizOperations() {
+    private void quizOperations() { //Quiz Logik prüfe die Antworten
 
         answerd = true;
         RadioButton rbselected= findViewById(rbGroup.getCheckedRadioButtonId());
@@ -194,8 +201,9 @@ public class QuizActivity extends AppCompatActivity {
                     rb1.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
                     rb1.setTextColor(Color.WHITE);
 
-                    correctAns++;
-                    textViewCorrect.setText("Correct" + String.valueOf(correctAns));
+                    score += 10;
+                    textViewScore.setText("Score: " + score);
+
 
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -207,8 +215,9 @@ public class QuizActivity extends AppCompatActivity {
 
                 }else {
                     changetoIncorrectColor(rbselected);
-                    wrongAns++;
-                    textViewWrong.setText("Wrong: " + String.valueOf(wrongAns));
+                    rb1.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -223,8 +232,9 @@ public class QuizActivity extends AppCompatActivity {
 
                     rb2.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
                     rb2.setTextColor(Color.WHITE);
-                    correctAns++;
-                    textViewCorrect.setText("Correct" + String.valueOf(correctAns));
+                    score += 10;
+                    textViewScore.setText("Score: " + score);
+
 
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -234,9 +244,10 @@ public class QuizActivity extends AppCompatActivity {
                     },1000);
                 }else {
                     changetoIncorrectColor(rbselected);
+                    rb2.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
 
-                    wrongAns++;
-                    textViewWrong.setText("Wrong: " + String.valueOf(wrongAns));
+
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -251,8 +262,9 @@ public class QuizActivity extends AppCompatActivity {
 
                     rb3.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
                     rb3.setTextColor(Color.WHITE);
-                    correctAns++;
-                    textViewCorrect.setText("Correct" + String.valueOf(correctAns));
+                    score += 10;
+                    textViewScore.setText("Score: " + score);
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -261,8 +273,9 @@ public class QuizActivity extends AppCompatActivity {
                     },1000);
                 }else {
                     changetoIncorrectColor(rbselected);
-                    wrongAns++;
-                    textViewWrong.setText("Wrong: " + String.valueOf(wrongAns));
+                    rb3.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -278,8 +291,9 @@ public class QuizActivity extends AppCompatActivity {
 
                     rb4.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
                     rb4.setTextColor(Color.WHITE);
-                    correctAns++;
-                    textViewCorrect.setText("Correct" + String.valueOf(correctAns));
+                    score += 10;
+                    textViewScore.setText("Score: " + score);
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -288,8 +302,9 @@ public class QuizActivity extends AppCompatActivity {
                     },1000);
                 }else {
                     changetoIncorrectColor(rbselected);
-                    wrongAns++;
-                    textViewWrong.setText("Wrong: " + String.valueOf(wrongAns));
+                    rb4.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -306,19 +321,19 @@ public class QuizActivity extends AppCompatActivity {
     }
     void changetoIncorrectColor(RadioButton rbselected) {
 
-        rbselected.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_richtig_btn));
+        rbselected.setBackground(ContextCompat.getDrawable(this,R.drawable.spielseite_falsche_btn_rot));
         rbselected.setTextColor(Color.BLACK);
 
 
     }
-    private void showQuestions() {
+    private void showQuestions() { //Zeige die nächsten Fragen
 
         rbGroup.clearCheck();
 
-        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.buttons_background));
-        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.buttons_background));
-        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.buttons_background));
-        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.buttons_background));
+        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
 
         rb1.setTextColor(Color.BLACK);
         rb2.setTextColor(Color.BLACK);
@@ -340,20 +355,143 @@ public class QuizActivity extends AppCompatActivity {
             buttonConfirmNext.setText("bestätige");
 
             textViewQuestionCount.setText("Frage: " + questionCounter + " " + "von" + " " + questionTotalCount);
+            timeLeftInMillis = COUNTDOWN_IN_MILLIS;
+            startCountDown();
 
 
         } else {
+
+            Toast.makeText(this, "Quiz Finshed", Toast.LENGTH_SHORT).show();
+
+            rb1.setClickable(false);
+            rb2.setClickable(false);
+            rb3.setClickable(false);
+            rb4.setClickable(false);
+            buttonConfirmNext.setClickable(false);
 
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
-                    Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
-                    startActivity(intent);
+                    finishQuiz();
 
                 }
-            }, 500);
+            }, 2000);
+        }
+
+    }
+
+    private void startCountDown() {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+            @Override
+            public void onFinish() {
+                timeLeftInMillis = 0;
+                updateCountDownText();
+                quizOperations();
+            }
+        }.start();
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        textViewCountdown.setText(timeFormatted);
+        if (timeLeftInMillis < 10000) {
+            textViewCountdown.setTextColor(Color.RED);
+        } else {
+            textViewCountdown.setTextColor(textColorDefaultCd);
+        }
+        if (timeLeftInMillis == 0 ){
+
+
+            Toast.makeText(this, "Times Up!", Toast.LENGTH_SHORT).show();
+
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    timerDialog.timerDialog();
+
+                }
+            },2000);
+
+
 
         }
     }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("BUGBUG","onRestart() in QuizActivity");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("BUGBUG","onStop() in QuizActivity");
+        finish();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.i("BUGBUG","onPause() in QuizActivity");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("BUGBUG","onResume() in QuizActivity");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("BUGBUG","onStart() in QuizActivity");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (countDownTimer!=null){
+            countDownTimer.cancel();
+        }
+        Log.i("BUGBUG","onDestroy() in QuizActivity");
+
+
+    }
+
+
+
+    private void finishQuiz() {
+        Intent resultData = new Intent(QuizActivity.this,ResultActivity.class);
+
+        resultData.putExtra("UserScore",score);
+        resultData.putExtra("TotalQuestion",questionTotalCount);
+
+        startActivity(resultData);
+    }
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishQuiz();
+        } else {
+            Toast.makeText(this, "Press back again to finish", Toast.LENGTH_SHORT).show();
+        }
+        backPressedTime = System.currentTimeMillis();
+    }
+
+
 }
