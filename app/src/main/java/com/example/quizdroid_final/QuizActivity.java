@@ -49,7 +49,7 @@ public class QuizActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
     int score = 0;
-    private TimerDialog timerDialog;
+
 
 
     private int totalSizeofQuiz = 0;
@@ -68,8 +68,8 @@ public class QuizActivity extends AppCompatActivity {
         setupUI();
         fetchDB();
         textColorDefaultCd = textViewCountdown.getTextColors();
-        Log.i("BUGBUG", "onCreate() in QuizActivity");
-        timerDialog = new TimerDialog(this);
+
+
 
     }
 
@@ -186,13 +186,11 @@ public class QuizActivity extends AppCompatActivity {
 
     private void quizOperations() { //Quiz Logik prüfe die Antworten
         answerd = true;
+        countDownTimer.cancel();
         RadioButton rbselected = findViewById(rbGroup.getCheckedRadioButtonId());
-        if (rbselected != null) {
-            int answerNr = rbGroup.indexOfChild(rbselected) + 1;
-            checkSolution(answerNr, rbselected);
-            return;
-        }
-        checkSolution(99, null);
+        int answerNr = rbGroup.indexOfChild(rbselected) + 1;
+        checkSolution(answerNr, rbselected);
+
 
     }
 
@@ -336,30 +334,31 @@ public class QuizActivity extends AppCompatActivity {
 
 
         } else {
+            //totalSizeofQuiz = questionList.size();
 
             Toast.makeText(this, "Quiz Finshed", Toast.LENGTH_SHORT).show();
 
-            rb1.setClickable(false);
+            /*rb1.setClickable(false);
             rb2.setClickable(false);
             rb3.setClickable(false);
             rb4.setClickable(false);
-            buttonConfirmNext.setClickable(false);
+            buttonConfirmNext.setClickable(false);*/
 
-            finishQuiz();
-/*            handler.postDelayed(new Runnable() {
+            //finishQuiz();
+           handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     finishQuiz();
                 }
-            }, 2000);*/
+            }, 2000);
         }
 
     }
 
     private void startCountDown() {
-        if (countDownTimer != null)
-            countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(30000, 1000) {
+        /*if (countDownTimer != null)
+            countDownTimer.cancel(); */
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
@@ -370,7 +369,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onFinish() {
                 timeLeftInMillis = 0;
                 updateCountDownText();
-                quizOperations();
+                //quizOperations();
             }
         }.start();
     }
@@ -378,10 +377,10 @@ public class QuizActivity extends AppCompatActivity {
     private void updateCountDownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
-        Log.e("TAG", "Minutes::" + minutes + "Seconds::" + seconds);
+        //Log.e("TAG", "Minutes::" + minutes + "Seconds::" + seconds);
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         textViewCountdown.setText(timeFormatted);
-        if (timeLeftInMillis < 10000) {
+        if (timeLeftInMillis < 10000) { //10 sek
             textViewCountdown.setTextColor(Color.RED);
         } else {
             textViewCountdown.setTextColor(textColorDefaultCd);
@@ -389,14 +388,15 @@ public class QuizActivity extends AppCompatActivity {
         if (timeLeftInMillis == 0) {
 
 
-            Toast.makeText(this, "Times Up!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Zeit abgelaufen!", Toast.LENGTH_SHORT).show();
 
 
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
-                    timerDialog.timerDialog();
+                    Intent intent = new Intent(getApplicationContext(),QuizActivity.class);
+                    startActivity(intent);
                 }
             }, 2000);
 
@@ -405,7 +405,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
 
-    @Override
+   /* @Override
     protected void onRestart() {
         super.onRestart();
         Log.i("BUGBUG", "onRestart() in QuizActivity");
@@ -436,6 +436,15 @@ public class QuizActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.i("BUGBUG", "onStart() in QuizActivity");
+    } */
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (countDownTimer !=null){
+            countDownTimer.cancel();
+        }
     }
 
     @Override
@@ -445,14 +454,13 @@ public class QuizActivity extends AppCompatActivity {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-        Log.i("BUGBUG", "onDestroy() in QuizActivity");
 
 
     }
 
 
     private void finishQuiz() {
-        Toast.makeText(this, "Quiz finished", Toast.LENGTH_SHORT);
+        //Toast.makeText(this, "Quiz finished", Toast.LENGTH_SHORT);
         Intent resultData = new Intent(QuizActivity.this,ResultActivity.class);
         resultData.putExtra("UserScore",score);
         resultData.putExtra("TotalQuestion",questionTotalCount);
