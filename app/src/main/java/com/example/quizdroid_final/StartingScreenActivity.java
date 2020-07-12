@@ -69,7 +69,7 @@ public class StartingScreenActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("BUGBUG","onStop() in PlayActivity");
+        Log.i("BUGBUG","onStop() in StartingScreenActivity");
         finish();
 
     }

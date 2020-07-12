@@ -36,7 +36,7 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.acitivity_result);
 
 
-        btMainMenu = findViewById(R.id.result_bt_mainmenu); //bla 
+        btMainMenu = findViewById(R.id.result_bt_mainmenu);
         btStartQuiz = findViewById(R.id.result_bt_playAgain);
         txtHighScore = findViewById(R.id.result_text_High_Score);
         txtTotalQuizQues = findViewById(R.id.result_total_Ques);
@@ -71,13 +71,13 @@ public class ResultActivity extends AppCompatActivity {
 
         int score = intent.getIntExtra("UserScore", 0);
         int totalQuestion = intent.getIntExtra("TotalQuestion", 0);
-        int correctQues = intent.getIntExtra("CorrectQues", 0);
-        int wrongQues = intent.getIntExtra("WrongQues", 0);
+        //int correctQues = intent.getIntExtra("CorrectQues", 0);
+        //int wrongQues = intent.getIntExtra("WrongQues", 0);
 
 
         txtTotalQuizQues.setText("Total Ques: " + String.valueOf(totalQuestion));
-        txtCorrectQues.setText("Correct: " + String.valueOf(correctQues));
-        txtWrongQues.setText("Wrong: " + String.valueOf(wrongQues));
+        //txtCorrectQues.setText("Correct: " + String.valueOf(correctQues));
+        //txtWrongQues.setText("Wrong: " + String.valueOf(wrongQues));
 
         if (score > highScore) {
 

@@ -49,6 +49,7 @@ public class QuizActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
     int score = 0;
+    private TimerDialog timerDialog;
 
 
     private int totalSizeofQuiz = 0;
@@ -68,6 +69,7 @@ public class QuizActivity extends AppCompatActivity {
         fetchDB();
         textColorDefaultCd = textViewCountdown.getTextColors();
         Log.i("BUGBUG", "onCreate() in QuizActivity");
+        timerDialog = new TimerDialog(this);
 
     }
 
@@ -394,7 +396,7 @@ public class QuizActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-
+                    timerDialog.timerDialog();
                 }
             }, 2000);
 
