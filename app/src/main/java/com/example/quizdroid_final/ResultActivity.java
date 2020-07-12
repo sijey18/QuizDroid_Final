@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ResultActivity extends AppCompatActivity {
     TextView txtHighScore;
-    TextView txtTotalQuizQues,txtCorrectQues,txtWrongQues;
+    TextView txtTotalQuizQues;//txtCorrectQues,txtWrongQues;
 
     Button btStartQuiz;
     Button btMainMenu;
@@ -40,8 +40,8 @@ public class ResultActivity extends AppCompatActivity {
         btStartQuiz = findViewById(R.id.result_bt_playAgain);
         txtHighScore = findViewById(R.id.result_text_High_Score);
         txtTotalQuizQues = findViewById(R.id.result_total_Ques);
-        txtCorrectQues = findViewById(R.id.result_Correct_Ques);
-        txtWrongQues = findViewById(R.id.result_Wrong_Ques);
+        /*txtCorrectQues = findViewById(R.id.result_Correct_Ques);
+        txtWrongQues = findViewById(R.id.result_Wrong_Ques);*/
 
 
         btMainMenu.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +75,7 @@ public class ResultActivity extends AppCompatActivity {
         //int wrongQues = intent.getIntExtra("WrongQues", 0);
 
 
-        txtTotalQuizQues.setText("Total Ques: " + String.valueOf(totalQuestion));
+        //txtTotalQuizQues.setText(" " + String.valueOf(totalQuestion));
         //txtCorrectQues.setText("Correct: " + String.valueOf(correctQues));
         //txtWrongQues.setText("Wrong: " + String.valueOf(wrongQues));
 
@@ -90,7 +90,7 @@ public class ResultActivity extends AppCompatActivity {
     private void updatHighScore(int newHighScore) {
 
         highScore = newHighScore;
-        txtHighScore.setText("High Score: " + String.valueOf(highScore));
+        txtHighScore.setText("Neuer Highscore: " + String.valueOf(highScore));
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERRENCE, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -104,11 +104,11 @@ public class ResultActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERRENCE, MODE_PRIVATE);
         highScore = sharedPreferences.getInt(SHARED_PREFERRENCE_HIGH_SCORE, 0);
-        txtHighScore.setText("High Score: " + String.valueOf(highScore));
+        txtHighScore.setText("Deine Punkte: " + String.valueOf(highScore));
 
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
 
@@ -120,7 +120,7 @@ public class ResultActivity extends AppCompatActivity {
 
         }
         backPressedTime = System.currentTimeMillis();
-    }
+    }*/
 }
 
 

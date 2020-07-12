@@ -11,7 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".HighscoreActivity"></activity>
         <activity android:name=".QuizActivity" />
+        <activity android:name=".ResultActivity" />
         <activity android:name=".StartingScreenActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
