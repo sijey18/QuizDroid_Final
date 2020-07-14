@@ -118,9 +118,9 @@ public class QuizActivity extends AppCompatActivity {
                         rb4.setTextColor(Color.BLACK);
 
                         rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option_1_btn));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
 
                         break;
 
@@ -133,9 +133,9 @@ public class QuizActivity extends AppCompatActivity {
                         rb4.setTextColor(Color.BLACK);
 
                         rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
 
                         break;
 
@@ -146,9 +146,9 @@ public class QuizActivity extends AppCompatActivity {
                         rb4.setTextColor(Color.BLACK);
 
                         rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+                        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
 
                         break;
                     case R.id.radio_button4:
@@ -158,9 +158,9 @@ public class QuizActivity extends AppCompatActivity {
                         rb1.setTextColor(Color.BLACK);
 
                         rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_bestaetigen_btn_1));
-                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+                        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+                        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+                        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
 
                         break;
                 }
@@ -300,16 +300,17 @@ public class QuizActivity extends AppCompatActivity {
 
         if (rbselected != null)
             rbselected.setTextColor(Color.BLACK);
+            rbselected.setBackground(ContextCompat.getDrawable(this, R.drawable.spielseite_falsche_btn_rot));
 
     }
 
     private void showQuestions() { //Zeige die nächsten Fragen
 
         rbGroup.clearCheck();
-        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
-        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.rechteck_2));
+        rb1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+        rb2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+        rb3.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
+        rb4.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.spielseite_option2_btn));
         rb1.setTextColor(Color.BLACK);
         rb2.setTextColor(Color.BLACK);
         rb3.setTextColor(Color.BLACK);
@@ -334,15 +335,15 @@ public class QuizActivity extends AppCompatActivity {
 
 
         } else {
-            //totalSizeofQuiz = questionList.size();
 
-            Toast.makeText(this, "Quiz Finshed", Toast.LENGTH_SHORT).show();
 
-            /*rb1.setClickable(false);
+            Toast.makeText(this, "Spiel beendet", Toast.LENGTH_SHORT).show();
+
+            rb1.setClickable(false);
             rb2.setClickable(false);
             rb3.setClickable(false);
             rb4.setClickable(false);
-            buttonConfirmNext.setClickable(false);*/
+            buttonConfirmNext.setClickable(false);
 
             //finishQuiz();
            handler.postDelayed(new Runnable() {
@@ -356,8 +357,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void startCountDown() {
-        /*if (countDownTimer != null)
-            countDownTimer.cancel(); */
+        if (countDownTimer != null)
+            countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -369,7 +370,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onFinish() {
                 timeLeftInMillis = 0;
                 updateCountDownText();
-                //quizOperations();
+
             }
         }.start();
     }
@@ -377,7 +378,7 @@ public class QuizActivity extends AppCompatActivity {
     private void updateCountDownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
-        //Log.e("TAG", "Minutes::" + minutes + "Seconds::" + seconds);
+
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         textViewCountdown.setText(timeFormatted);
         if (timeLeftInMillis < 10000) { //10 sek
@@ -405,38 +406,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
 
-   /* @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i("BUGBUG", "onRestart() in QuizActivity");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("BUGBUG", "onStop() in QuizActivity");
-        finish();
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        Log.i("BUGBUG", "onPause() in QuizActivity");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("BUGBUG", "onResume() in QuizActivity");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("BUGBUG", "onStart() in QuizActivity");
-    } */
 
     @Override
     protected void onPause() {
@@ -460,7 +429,7 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void finishQuiz() {
-        //Toast.makeText(this, "Quiz finished", Toast.LENGTH_SHORT);
+
         Intent resultData = new Intent(QuizActivity.this,ResultActivity.class);
         resultData.putExtra("UserScore",score);
         resultData.putExtra("TotalQuestion",questionTotalCount);

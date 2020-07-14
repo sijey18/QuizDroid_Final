@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,10 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ResultActivity extends AppCompatActivity {
     TextView txtHighScore;
-    TextView txtTotalQuizQues;//txtCorrectQues,txtWrongQues;
+    TextView txtTotalQuizQues;
 
     Button btStartQuiz;
     Button btMainMenu;
+    Button btnAdd;
+    EditText editText;
+    DatabaseHelper myDB;
 
     private int highScore;
     public static final String SHARED_PREFERRENCE = "shread_prefrence";
@@ -40,8 +44,22 @@ public class ResultActivity extends AppCompatActivity {
         btStartQuiz = findViewById(R.id.result_bt_playAgain);
         txtHighScore = findViewById(R.id.result_text_High_Score);
         txtTotalQuizQues = findViewById(R.id.result_total_Ques);
-        /*txtCorrectQues = findViewById(R.id.result_Correct_Ques);
-        txtWrongQues = findViewById(R.id.result_Wrong_Ques);*/
+        btnAdd = (Button) findViewById(R.id.edit_add);
+        editText = (EditText) findViewById(R.id.editText);
+
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newEntry = editText.getText().toString();
+                if(editText.length() != 0) {
+                    AddData(newEntry);
+                    editText.setText(" ");
+                }else {
+                    Toast.makeText(ResultActivity.this, "Bitte Namen eingben",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         btMainMenu.setOnClickListener(new View.OnClickListener() {
@@ -54,12 +72,12 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
-        btStartQuiz.setOnClickListener(new View.OnClickListener() {
+        btStartQuiz.setOnClickListener(new View.OnClickListener() { //highscore Pfad
             @Override
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(ResultActivity.this, QuizActivity.class);
+                Intent intent = new Intent(ResultActivity.this, HighscoreActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,13 +89,7 @@ public class ResultActivity extends AppCompatActivity {
 
         int score = intent.getIntExtra("UserScore", 0);
         int totalQuestion = intent.getIntExtra("TotalQuestion", 0);
-        //int correctQues = intent.getIntExtra("CorrectQues", 0);
-        //int wrongQues = intent.getIntExtra("WrongQues", 0);
 
-
-        //txtTotalQuizQues.setText(" " + String.valueOf(totalQuestion));
-        //txtCorrectQues.setText("Correct: " + String.valueOf(correctQues));
-        //txtWrongQues.setText("Wrong: " + String.valueOf(wrongQues));
 
         if (score > highScore) {
 
@@ -85,6 +97,16 @@ public class ResultActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void AddData(String newEntry) {
+        boolean insertData = myDB.addData(newEntry);
+
+        if(insertData == true) {
+            Toast.makeText(ResultActivity.this, "Punkte gespeichert",Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(ResultActivity.this, "Schade nicht gespeichert!",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void updatHighScore(int newHighScore) {
@@ -108,7 +130,7 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
-   /* @Override
+    @Override
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
 
@@ -120,7 +142,7 @@ public class ResultActivity extends AppCompatActivity {
 
         }
         backPressedTime = System.currentTimeMillis();
-    }*/
+    }
 }
 
 

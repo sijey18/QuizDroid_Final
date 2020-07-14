@@ -42,7 +42,7 @@ public class StartingScreenActivity extends AppCompatActivity {
             }
         });
     }
-   /* @Override
+   @Override
     public void onBackPressed() {
 
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
@@ -64,7 +64,7 @@ public class StartingScreenActivity extends AppCompatActivity {
             Toast.makeText(this, "Press Again to Exit", Toast.LENGTH_SHORT).show();
         }
         backPressedTime = System.currentTimeMillis();
-    }*/
+    }
 
    /* @Override
     protected void onStop() {
