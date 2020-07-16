@@ -39,7 +39,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/score_liste"
+            android:id="@+id/score_list"
             android:layout_width="255dp"
             android:layout_height="342dp">
 
