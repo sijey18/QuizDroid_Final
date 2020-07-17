@@ -20,7 +20,7 @@ public class ResultActivity extends AppCompatActivity {
     Button btMainMenu;
     Button btnAdd;
     EditText editText;
-    DatabaseHelper myDB;
+
 
     private int highScore;
     public static final String SHARED_PREFERRENCE = "shread_prefrence";
@@ -48,18 +48,7 @@ public class ResultActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
 
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newEntry = editText.getText().toString();
-                if(editText.length() != 0) {
-                    AddData(newEntry);
-                    editText.setText("");
-                }else {
-                    toastMessage("Gib Namen ein");
-                }
-            }
-        });
+
 
 
         btMainMenu.setOnClickListener(new View.OnClickListener() {
@@ -121,19 +110,7 @@ public class ResultActivity extends AppCompatActivity {
         txtHighScore.setText("Deine Punkte: " + String.valueOf(highScore));
 
     }
-    public void AddData(String newEntry) {
-        boolean insertData = myDB.addData(newEntry);
 
-        if(insertData) {
-           toastMessage("Punkte gespeichert");
-        }else {
-            toastMessage("Schiefgelaufen");
-        }
-    }
-
-    private void toastMessage(String message){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
     @Override
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {

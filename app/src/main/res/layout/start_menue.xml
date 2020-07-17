@@ -17,18 +17,7 @@
         android:textColor="#ee4c3e"
         android:textSize="45sp"
         />
-    <TextView
-        android:id="@+id/text_view_highscore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="550dp"
-        android:layout_marginBottom="32dp"
-        android:text="Highscore: 0"
-        android:textStyle="bold"
-        android:textColor="#ee4c3e"
-        android:textSize="30sp" />
 
 
     <Button
